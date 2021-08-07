@@ -23,7 +23,7 @@ function playRound(playerSelection, computerSelection) {
     
 
     if (playerSelection==computerSelection) {
-        return 'Tie. No winner.';
+        return 'Tie.';
     }
 
     switch(playerSelection)  {
@@ -62,6 +62,42 @@ function playRound(playerSelection, computerSelection) {
     }
 
 }
-const playerSelection = 'rock';
-const computerSelection = computerPlay();
-console.log(playRound(playerSelection, computerSelection));
+
+function game() {
+    let playerWins = 0;
+    let computerWins = 0;
+
+    while ((playerWins+computerWins)<5) {
+        let playerSelection = prompt('Enter rock, paper, or scissors:');
+        let computerSelection = computerPlay();
+        let result = playRound(playerSelection, computerSelection);
+
+        if (result.includes('win')) {
+            alert(result);
+            playerWins++;
+        }
+
+        else if (result.includes('lose')) {
+            alert(result);
+            computerWins++;
+        }
+
+        else {
+            alert(result);
+        }
+    }
+
+    if (playerWins>computerWins) {
+        let message = 'Congratulations! You win ' + playerWins+'-'+computerWins;
+        alert(message);
+        return;
+    }
+
+    else {
+        let message = 'Sorry! You lost ' + computerWins + '-' + playerWins;
+        alert(message);
+        return;
+    }
+}
+
+game();
