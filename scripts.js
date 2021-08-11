@@ -30,31 +30,37 @@ function playRound(playerSelection, computerSelection) {
 
         case 'rock': 
             if (computerSelection=='scissors') {
-                return 'You win! Rock beats Scissors';
+                playerWins++;
+                return 'Player scores. Rock beats Scissors';
+                
             }
             else {
-                return 'You lose! Paper beats Rock';
+                computerWins++;
+                return 'Computer scores. Paper beats Rock';
             }
 
 
         case 'paper': 
             if (computerSelection=='rock') {
-                return 'You win! Paper beats Rock';
+                playerWins++;
+                return 'Player scores. Paper beats Rock';
             }
             else {
-                return 'You lose! Scissors beats Paper';
+                computerWins++;
+                return 'Computer scores. Scissors beats Paper';
             }
 
         case 'scissors': 
             if (computerSelection=='paper') {
-                return 'You win! Scissors beats Paper';
+                playerWins++;
+                return 'Player scores. Scissors beats Paper';
             }
             else {
-                return 'You lose! Rock beats Scissors';
+                computerWins++;
+                return 'Computer scores. Rock beats Scissors';
             }
 
-        default:
-            return 'Must choose either rock, paper, or scissors';
+        
 
 
 
@@ -63,41 +69,51 @@ function playRound(playerSelection, computerSelection) {
 
 }
 
+const buttons = document.querySelectorAll('button');
+const gameContainer = document.querySelector('#game-container');
+
+
+
+let playerWins = 0;
+let computerWins = 0;
+
+function endGame() {
+    playerWins = 0;
+    computerWins = 0;
+    score.textContent=playerWins+'-'+computerWins;
+}
 function game() {
-    let playerWins = 0;
-    let computerWins = 0;
+    
+    let result;
+    
+    const score = document.createElement('div');
+    score.textContent=playerWins+'-'+computerWins;
+    gameContainer.appendChild(score);
 
-    while ((playerWins+computerWins)<5) {
-        let playerSelection = prompt('Enter rock, paper, or scissors:');
-        let computerSelection = computerPlay();
-        let result = playRound(playerSelection, computerSelection);
+    buttons.forEach( (button) => {
 
-        if (result.includes('win')) {
-            alert(result);
-            playerWins++;
-        }
+        button.addEventListener('click', function() {
+            let computerSelection = computerPlay();
+            result = playRound(button.id, computerSelection);
+            score.textContent=playerWins+'-'+computerWins+' '+result;  
+            
+            if (playerWins==5) {
+                alert('You win!' + ' ' + playerWins+'-'+computerWins);
+                endGame();
+            }
 
-        else if (result.includes('lose')) {
-            alert(result);
-            computerWins++;
-        }
+            if (computerWins==5) {
+                alert('You lose!' + ' ' + playerWins+'-'+computerWins);
+                endGame();
+            }
 
-        else {
-            alert(result);
-        }
-    }
+            
+            });
+    });
+    
 
-    if (playerWins>computerWins) {
-        let message = 'Congratulations! You win ' + playerWins+'-'+computerWins;
-        alert(message);
-        return;
-    }
 
-    else {
-        let message = 'Sorry! You lost ' + computerWins + '-' + playerWins;
-        alert(message);
-        return;
-    }
+    
 }
 
 game();
